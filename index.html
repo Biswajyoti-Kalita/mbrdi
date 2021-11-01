@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vehcile Destination Checked</title>
+</head>
+<body>
+	<h4>Vehcile Destination Checked</h4>
+	<input type="text" placeholder="vehicle no" name="" id="vehicleNo">
+	<input type="text" placeholder="source" name="" id="source">
+	<input type="text" placeholder="destination" name="" id="destination">
+	<button onclick="checkVehicleDestination()" >CHECK</button>
+	<br />
+	<br />
+	<textarea id="result2" rows="30" cols="50"  readonly></textarea>
+	<script type="text/javascript">
+		const vehicleNo = document.getElementById('vehicleNo');
+		const source = document.getElementById("source");
+		const destination = document.getElementById("destination");
+		const resultDiv  = document.getElementById('result2');
+
+		async function checkVehicleDestination() {
+			resultDiv.value = "";
+
+			const result  = await fetch('/checkVehicleDestination', {
+			  method: 'POST', // or 'PUT'
+			  headers: {
+			    'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify({
+			  	vin: vehicleNo.value,
+			  	source: source.value,
+			  	destination: destination.value
+			  }),
+			})
+			const data = await result.json();
+			resultDiv.value = JSON.stringify(data,null,2)
+
+		}
+	</script>
+</body>
+</html>
